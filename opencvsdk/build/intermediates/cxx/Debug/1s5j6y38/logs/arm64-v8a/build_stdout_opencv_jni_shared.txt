@@ -1,0 +1,3 @@
+ninja: Entering directory `/Users/faran.iqbal/Desktop/Data/Development/FaranIqbalGithub/opencv-android-integration/opencvsdk/.cxx/Debug/1s5j6y38/arm64-v8a'
+[1/2] Building CXX object CMakeFiles/opencv_jni_shared.dir/dummy.cpp.o
+[2/2] Linking CXX static library libopencv_jni_shared.a
