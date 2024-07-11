@@ -1,5 +1,6 @@
 package com.faraniqbal.opencv.opencvintegrationapp
 
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -25,25 +26,37 @@ class MainActivity : AppCompatActivity() {
 
         if (OpenCVLoader.initLocal()) {
             Log.i("TAG", "OpenCV sdk loaded.")
-            loadAndGrayScaleImage()
+            val bitmap = loadImage()
+            val grayScaleBitmap = loadGrayScale(bitmap)
+            displayGrayScale(grayScaleBitmap)
         } else {
             Log.i("TAG", "OpenCV sdk not loaded.")
         }
     }
 
-    private fun loadAndGrayScaleImage() {
+    private fun loadImage(): Bitmap? {
         try {
             val ims: InputStream = this.assets.open(fileName)
             val drawable = Drawable.createFromStream(ims, null)
             drawable?.let {
-                val bitmap = OpenCvUtils.drawableToBitmap(it)
-                val output = OpenCvUtils.convertBitmapToGrayScale(bitmap)
-                output.let { out ->
-                    bindings.ivInputImage.setImageBitmap(out)
-                }
+                return OpenCvUtils.drawableToBitmap(it)
             }
         } catch (e: Exception) {
-            Log.d("TAG", "loadAndGrayScaleImage Exp:\n ${e.localizedMessage}")
+            Log.d("TAG", "loadImage Exp:\n ${e.localizedMessage}")
+        }
+        return null
+    }
+
+    private fun loadGrayScale(bitmap: Bitmap?) : Bitmap? {
+        bitmap?.let {
+            return OpenCvUtils.convertBitmapToGrayScale(bitmap)
+        }
+        return null
+    }
+
+    private fun displayGrayScale(grayScaleBitmap: Bitmap?) {
+        grayScaleBitmap?.let { grayScale ->
+            bindings.ivInputImage.setImageBitmap(grayScale)
         }
     }
 }
